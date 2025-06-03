@@ -148,39 +148,49 @@ const HomePage = () => {
         }
 
         const img = images[i];
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
         const image = new Image();
 
         await new Promise((resolve, reject) => {
           image.onload = () => {
             try {
               const { width: imgWidth, height: imgHeight } = image;
-              
+              // PDF size in mm
               let newWidth = availableWidth;
               let newHeight = (imgHeight * availableWidth) / imgWidth;
-
               if (newHeight > availableHeight) {
                 newHeight = availableHeight;
                 newWidth = (imgWidth * availableHeight) / imgHeight;
               }
-              
-              const targetCanvasWidth = img.rotation === 90 || img.rotation === 270 ? newHeight : newWidth;
-              const targetCanvasHeight = img.rotation === 90 || img.rotation === 270 ? newWidth : newHeight;
+              const targetCanvasWidthMM = img.rotation === 90 || img.rotation === 270 ? newHeight : newWidth;
+              const targetCanvasHeightMM = img.rotation === 90 || img.rotation === 270 ? newWidth : newHeight;
 
-              canvas.width = targetCanvasWidth * 2; 
-              canvas.height = targetCanvasHeight * 2;
-              
+              // Use 300 DPI for high quality
+              const DPI = 300;
+              const MM_TO_INCH = 1 / 25.4;
+              const canvasWidthPx = Math.round(targetCanvasWidthMM * DPI * MM_TO_INCH);
+              const canvasHeightPx = Math.round(targetCanvasHeightMM * DPI * MM_TO_INCH);
+
+              const canvas = document.createElement('canvas');
+              canvas.width = canvasWidthPx;
+              canvas.height = canvasHeightPx;
+              const ctx = canvas.getContext('2d');
+
+              ctx.save();
               ctx.translate(canvas.width / 2, canvas.height / 2);
               ctx.rotate((img.rotation * Math.PI) / 180);
-              ctx.drawImage(image, -newWidth, -newHeight, newWidth * 2, newHeight * 2);
-              
+              ctx.drawImage(
+                image,
+                -canvas.width / 2,
+                -canvas.height / 2,
+                canvas.width,
+                canvas.height
+              );
+              ctx.restore();
+
               const imgData = canvas.toDataURL('image/png');
-              
-              const x = (pageWidth - targetCanvasWidth) / 2;
-              const y = (pageHeight - targetCanvasHeight) / 2;
-              
-              pdf.addImage(imgData, 'PNG', x, y, targetCanvasWidth, targetCanvasHeight);
+              const x = (pageWidth - targetCanvasWidthMM) / 2;
+              const y = (pageHeight - targetCanvasHeightMM) / 2;
+              pdf.addImage(imgData, 'PNG', x, y, targetCanvasWidthMM, targetCanvasHeightMM, undefined, 'FAST');
               resolve();
             } catch (e) {
               reject(e);
