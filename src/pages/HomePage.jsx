@@ -18,7 +18,7 @@ const HomePage = () => {
   const [pdfSettings, setPdfSettings] = useState({
     pageSize: 'A4',
     orientation: 'portrait',
-    quality: 0.8,
+    quality: 1.0,
     margin: 20
   });
 
@@ -175,12 +175,12 @@ const HomePage = () => {
               ctx.rotate((img.rotation * Math.PI) / 180);
               ctx.drawImage(image, -newWidth, -newHeight, newWidth * 2, newHeight * 2);
               
-              const imgData = canvas.toDataURL('image/jpeg', pdfSettings.quality);
+              const imgData = canvas.toDataURL('image/png');
               
               const x = (pageWidth - targetCanvasWidth) / 2;
               const y = (pageHeight - targetCanvasHeight) / 2;
               
-              pdf.addImage(imgData, 'JPEG', x, y, targetCanvasWidth, targetCanvasHeight);
+              pdf.addImage(imgData, 'PNG', x, y, targetCanvasWidth, targetCanvasHeight);
               resolve();
             } catch (e) {
               reject(e);
