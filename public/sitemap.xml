@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.example.com/</loc>
-    <changefreq>daily</changefreq>
+    <loc>https://imagepdfconverter.in/</loc>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <lastmod>2024-01-01</lastmod>
   </url>
   <url>
-    <loc>https://www.example.com/about</loc>
+    <loc>https://imagepdfconverter.in/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <lastmod>2024-01-01</lastmod>
   </url>
   <url>
-    <loc>https://www.example.com/contact</loc>
+    <loc>https://imagepdfconverter.in/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <lastmod>2024-01-01</lastmod>
   </url>
   <url>
-    <loc>https://www.example.com/privacy</loc>
+    <loc>https://imagepdfconverter.in/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
+    <lastmod>2024-01-01</lastmod>
   </url>
 </urlset> 
